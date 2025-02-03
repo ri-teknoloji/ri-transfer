@@ -1,4 +1,5 @@
 import { writeFile } from "fs/promises";
+import fs from "fs";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import { File as DbFile } from "@prisma/client";
@@ -19,6 +20,9 @@ export async function POST(request: NextRequest) {
   }
 
   const uploadDir = path.join(process.cwd(), "public", "uploads");
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
 
   const uploadedFiles: DbFile[] = [];
 
