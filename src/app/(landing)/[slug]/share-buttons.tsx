@@ -30,9 +30,7 @@ export default function ShareButtons({ folder }: ShareButtonsProps) {
   };
 
   const handleQrCode = () => {
-    const qrCode = `https://api.qrserver.com/v1/create-qr-code/?data=${url}`;
-    window.open(qrCode, "_blank");
-
+    window.open("/qrcode/" + encodeURIComponent(url), "_blank");
     toast.info("QR Kod sayfası açıldı");
   };
 
