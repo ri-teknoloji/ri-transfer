@@ -1,8 +1,6 @@
-Elbette! Aşağıda, Prisma, Next.js ve shadcn/ui gibi teknolojileri kullanan bir dosya paylaşım uygulaması için örnek bir `README.md` dosyası bulabilirsiniz:
-
 # Ri Transfer - Dosya Paylaşım Uygulaması
 
-i Transfer, kullanıcıların dosyalarını hızlı ve güvenli bir şekilde paylaşmalarını sağlayan bir dosya paylaşım uygulamasıdır. Bu proje, modern web teknolojileri kullanılarak geliştirilmiştir ve kullanıcı dostu bir arayüz sunar.
+Ri Transfer, kullanıcıların dosyalarını hızlı ve güvenli bir şekilde paylaşmalarını sağlayan bir dosya paylaşım uygulamasıdır. Bu proje, modern web teknolojileri kullanılarak geliştirilmiştir ve kullanıcı dostu bir arayüz sunar.
 
 ## Kullanılan Teknolojiler
 
