@@ -1,6 +1,5 @@
 Elbette! Aşağıda, Prisma, Next.js ve shadcn/ui gibi teknolojileri kullanan bir dosya paylaşım uygulaması için örnek bir `README.md` dosyası bulabilirsiniz:
 
-````markdown
 # i Transfer - Dosya Paylaşım Uygulaması
 
 i Transfer, kullanıcıların dosyalarını hızlı ve güvenli bir şekilde paylaşmalarını sağlayan bir dosya paylaşım uygulamasıdır. Bu proje, modern web teknolojileri kullanılarak geliştirilmiştir ve kullanıcı dostu bir arayüz sunar.
@@ -17,11 +16,11 @@ i Transfer, kullanıcıların dosyalarını hızlı ve güvenli bir şekilde pay
 Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 
 1. **Depoyu Klonlayın**:
+
    ```bash
    git clone https://github.com/ri-teknoloji/ri-transfer.git
    cd ri-transfer
    ```
-````
 
 2. **Gerekli Paketleri Yükleyin**:
 
