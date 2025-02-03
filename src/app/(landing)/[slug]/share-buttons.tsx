@@ -24,7 +24,7 @@ export default function ShareButtons({ folder }: ShareButtonsProps) {
   const handleMail = () => {
     window.open(
       " mailto:" +
-        `?body=Paylaşılan dosyalara erişmek için linke tıklayınız <a href="${url}">${url}</a>` +
+        `?body=Paylaşılan dosyalara erişmek için linke tıklayınız: ${url}` +
         "&subject=Paylaşılan Dosyalar",
       "_blank",
     );
