@@ -17,7 +17,7 @@ export default tseslint.config(
   tseslint.configs.stylistic,
   perfectionist.configs["recommended-alphabetical"],
   ...compat.config({
-    extends: ["next"],
+    extends: ["eslint:recommended", "next"],
   }),
   {
     files: ["**/*.ts", "**/*.tsx"],

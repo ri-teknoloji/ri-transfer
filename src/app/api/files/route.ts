@@ -1,9 +1,7 @@
+import s3 from "@/lib/s3";
 import prisma from "@/prisma";
 import { File as DbFile } from "@prisma/client";
-import fs from "fs";
-import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
 
 export async function GET() {
   const files = await prisma.file.findMany();
@@ -19,11 +17,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "No files provided" }, { status: 400 });
   }
 
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-  }
-
   const uploadedFiles: DbFile[] = [];
 
   const folder = await prisma.folder.create({
@@ -34,12 +27,12 @@ export async function POST(request: NextRequest) {
 
   for (const file of files) {
     const slug = `${folder.id}_${file.name.replace(/[^a-z0-9.]/gi, "_")}`;
-    const filePath = path.join(uploadDir, slug);
 
-    await writeFile(filePath, Buffer.from(await file.arrayBuffer()));
+    await s3.createFile(slug, Buffer.from(await file.arrayBuffer()));
 
     const uploadedFile = await prisma.file.create({
       data: {
+        cloudKey: slug,
         folderId: folder.id,
         name: slug,
         size: file.size,

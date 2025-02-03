@@ -1,13 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { getFile } from "@/lib/http";
 import { cn } from "@/lib/utils";
 import { File } from "@prisma/client";
 import {
+  LucideAudioLines,
   LucideCopy,
   LucideDownload,
   LucideEye,
   LucideFile,
+  LucideImage,
+  LucideVideo,
 } from "lucide-react";
 import prettyBytes from "pretty-bytes";
 import React from "react";
@@ -20,7 +24,7 @@ interface FileCardProps {
 export default function FileCard({ file }: FileCardProps) {
   const fileName = file.name.split("_").slice(1).join("_");
 
-  const fileUrl = location.origin + "/uploads/" + file.name;
+  const fileUrl = getFile(file.cloudKey);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(fileUrl);
@@ -46,7 +50,7 @@ export default function FileCard({ file }: FileCardProps) {
       )}
     >
       <div className="flex gap-3">
-        <LucideFile />
+        <GetIcon file={file} />
         <strong className="truncate">{fileName}</strong>
         <small className="text-nowrap">{prettyBytes(file.size)}</small>
       </div>
@@ -64,3 +68,19 @@ export default function FileCard({ file }: FileCardProps) {
     </li>
   );
 }
+
+const GetIcon = ({ file }: { file: File }) => {
+  if (file.type.startsWith("image")) {
+    return <LucideImage />;
+  }
+
+  if (file.type.startsWith("video")) {
+    return <LucideVideo />;
+  }
+
+  if (file.type.startsWith("audio")) {
+    return <LucideAudioLines />;
+  }
+
+  return <LucideFile />;
+};

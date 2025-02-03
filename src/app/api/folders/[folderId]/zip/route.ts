@@ -1,8 +1,9 @@
+import s3 from "@/lib/s3";
 import prisma from "@/prisma";
 import AdmZip from "adm-zip";
-import { readFile, writeFile } from "fs/promises";
+import axios from "axios";
+import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
 
 export async function POST(
   _request: NextRequest,
@@ -22,10 +23,17 @@ export async function POST(
   const zip = new AdmZip();
 
   for (const file of folder.files) {
-    const filePath = path.join(process.cwd(), "public/uploads", file.name);
-    const fileBuffer = await readFile(filePath);
+    const { data } = await axios.get(file.cloudKey, {
+      baseURL: process.env.NEXT_PUBLIC_CDN_URL,
+      responseType: "arraybuffer",
+    });
+    const fileBuffer = Buffer.from(data);
     zip.addFile(file.name, fileBuffer);
   }
+
+  const key = `zips/${folderId}.zip`;
+
+  await s3.createFile(key, zip.toBuffer());
 
   const zipBuffer = zip.toBuffer();
   const filePath = `public/uploads/${folderId}.zip`;

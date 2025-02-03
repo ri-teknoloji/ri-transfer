@@ -11,6 +11,9 @@ interface ShareButtonsProps {
 }
 
 export default function ShareButtons({ folder }: ShareButtonsProps) {
+  const location =
+    typeof window !== "undefined" ? window.location : { origin: "" };
+
   const url = location.origin + "/" + folder.id;
 
   const handleCopy = async () => {

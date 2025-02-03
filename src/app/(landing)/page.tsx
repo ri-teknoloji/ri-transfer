@@ -12,14 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Folder } from "@prisma/client";
 import axios, { type AxiosProgressEvent } from "axios";
 import { LucideTrash } from "lucide-react";
@@ -99,7 +91,7 @@ const UploadForm = () => {
           <Progress value={percentage} />
         </div>
       )}
-      <div className="col-span-12 md:col-span-12">
+      <div className="col-span-12">
         <Card>
           <CardHeader>
             <CardTitle>Dosyalar</CardTitle>
@@ -146,42 +138,6 @@ const UploadForm = () => {
               Paylaş
             </Button>
           </CardFooter>
-        </Card>
-      </div>
-      <div className="col-span-12 hidden md:col-span-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Ayarlar</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form className="grid gap-5" onSubmit={handleSubmit}>
-              <div>
-                <Label>Geçerlilik Süresi</Label>
-                <Select name="expiresAt" required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Geçerlilik Süresi" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="1">1 Saat</SelectItem>
-                      <SelectItem value="6">6 Saat</SelectItem>
-                      <SelectItem value="12">12 Saat</SelectItem>
-                      <SelectItem value="24">1 Gün</SelectItem>
-                      <SelectItem value="48">2 Gün</SelectItem>
-                      <SelectItem value="168">1 Hafta</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button
-                className="w-full"
-                disabled={files.length === 0}
-                type="submit"
-              >
-                Paylaş
-              </Button>
-            </form>
-          </CardContent>
         </Card>
       </div>
     </div>
