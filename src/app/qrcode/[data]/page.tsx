@@ -1,4 +1,5 @@
 "use client";
+
 import { QRCodeCanvas } from "qrcode.react";
 import React from "react";
 
