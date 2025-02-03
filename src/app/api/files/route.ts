@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   });
 
   for (const file of files) {
-    const slug = `${folder.id}_${file.name.replace(/[^a-z0-9.]/gi, "_")}`;
+    const slug = `${folder.id}/${file.name.replace(/[^a-z0-9.]/gi, "_")}`;
 
     await s3.createFile(slug, Buffer.from(await file.arrayBuffer()));
 

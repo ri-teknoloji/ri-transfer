@@ -2,7 +2,6 @@ import s3 from "@/lib/s3";
 import prisma from "@/prisma";
 import AdmZip from "adm-zip";
 import axios from "axios";
-import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
@@ -20,6 +19,14 @@ export async function POST(
     return NextResponse.json({ error: "Folder not found" }, { status: 404 });
   }
 
+  const key = `${folderId}/zipped.zip`;
+
+  const isZipped = await s3.hasFile(key);
+
+  if (isZipped) {
+    return NextResponse.json({ path: key });
+  }
+
   const zip = new AdmZip();
 
   for (const file of folder.files) {
@@ -31,14 +38,7 @@ export async function POST(
     zip.addFile(file.name, fileBuffer);
   }
 
-  const key = `zips/${folderId}.zip`;
-
   await s3.createFile(key, zip.toBuffer());
 
-  const zipBuffer = zip.toBuffer();
-  const filePath = `public/uploads/${folderId}.zip`;
-
-  await writeFile(filePath, zipBuffer);
-
-  return NextResponse.json({ path: filePath });
+  return NextResponse.json({ path: key });
 }

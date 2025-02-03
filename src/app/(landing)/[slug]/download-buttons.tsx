@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import http from "@/lib/http";
+import http, { getFile } from "@/lib/http";
 import { File, Folder } from "@prisma/client";
 import { LucideFolderArchive } from "lucide-react";
 import { toast } from "sonner";
@@ -17,7 +17,7 @@ export default function DownloadButtons({ folder }: DownloadOptionsProps) {
     );
 
     const a = document.createElement("a");
-    a.href = location.origin + data.path.replace("public", "");
+    a.href = getFile(data.path);
     console.log(a.href);
     a.download = `${folder.id}.zip`;
     a.click();

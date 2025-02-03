@@ -1,5 +1,6 @@
 import {
   DeleteObjectCommand,
+  HeadObjectCommand,
   ListBucketsCommand,
   PutObjectCommand,
   S3Client,
@@ -39,6 +40,20 @@ class S3Service {
 
     const res = await this.s3.send(command);
     return res;
+  }
+
+  async hasFile(key: string): Promise<boolean> {
+    try {
+      await this.s3.send(
+        new HeadObjectCommand({
+          Bucket: this.bucketName,
+          Key: key,
+        }),
+      );
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   async listBuckets() {
