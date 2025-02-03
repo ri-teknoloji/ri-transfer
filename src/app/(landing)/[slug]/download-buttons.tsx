@@ -26,7 +26,7 @@ export default function DownloadButtons({ folder }: DownloadOptionsProps) {
   };
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 justify-end">
       <Button onClick={handleDownload}>
         <LucideFolderArchive />
         Zip olarak indir

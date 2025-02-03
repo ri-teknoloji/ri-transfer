@@ -12,6 +12,7 @@ import React from "react";
 import FileCard from "./file-card";
 import prettyBytes from "pretty-bytes";
 import DownloadButtons from "./download-buttons";
+import ShareButtons from "./share-buttons";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -52,7 +53,8 @@ export default async function Page({ params }: PageProps) {
           ))}
         </ul>
       </CardContent>
-      <CardFooter className="flex justify-end">
+      <CardFooter className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <ShareButtons folder={folder} />
         <DownloadButtons folder={folder} />
       </CardFooter>
     </Card>

@@ -1,0 +1,57 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { File, Folder } from "@prisma/client";
+import { LucideCopy, LucideMail, LucideQrCode } from "lucide-react";
+import React from "react";
+import { toast } from "sonner";
+
+interface ShareButtonsProps {
+  folder: Folder & { files: File[] };
+}
+
+export default function ShareButtons({ folder }: ShareButtonsProps) {
+  const url = location.origin + "/" + folder.id;
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(url);
+    toast.info("Link kopyalandı");
+  };
+
+  const handleMail = () => {
+    window.open(
+      " mailto:" +
+        `?body=Paylaşılan dosyalara erişmek için linke tıklayınız <a href="${url}">${url}</a>` +
+        "&subject=Paylaşılan Dosyalar",
+      "_blank"
+    );
+
+    toast.info("Mail sayfası açıldı");
+  };
+
+  const handleQrCode = () => {
+    const qrCode = `https://api.qrserver.com/v1/create-qr-code/?data=${url}`;
+    window.open(qrCode, "_blank");
+
+    toast.info("QR Kod sayfası açıldı");
+  };
+
+  return (
+    <>
+      <div className="flex gap-1 flex-wrap">
+        <Button onClick={handleQrCode} variant={"outline"}>
+          <LucideQrCode />
+          QR Kod
+        </Button>
+        <Button onClick={handleMail} variant={"outline"}>
+          <LucideMail />
+          E-posta
+        </Button>
+        <Button onClick={handleCopy} variant={"outline"}>
+          <LucideCopy />
+          Pano
+        </Button>
+      </div>
+    </>
+  );
+}
