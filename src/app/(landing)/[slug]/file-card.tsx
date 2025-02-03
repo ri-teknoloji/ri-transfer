@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { File } from "@prisma/client";
 import {
   LucideCopy,
@@ -8,9 +9,8 @@ import {
   LucideEye,
   LucideFile,
 } from "lucide-react";
-import React from "react";
 import prettyBytes from "pretty-bytes";
-import { cn } from "@/lib/utils";
+import React from "react";
 import { toast } from "sonner";
 
 interface FileCardProps {
@@ -41,8 +41,8 @@ export default function FileCard({ file }: FileCardProps) {
   return (
     <li
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 gap-3",
-        "p-3 rounded-md shadow-md border"
+        "grid grid-cols-1 gap-3 md:grid-cols-2",
+        "rounded-md border p-3 shadow-md",
       )}
     >
       <div className="flex gap-3">
@@ -50,14 +50,14 @@ export default function FileCard({ file }: FileCardProps) {
         <strong className="truncate">{fileName}</strong>
         <small className="text-nowrap">{prettyBytes(file.size)}</small>
       </div>
-      <div className="flex gap-3 justify-end">
-        <Button size={"icon"} variant={"ghost"} onClick={handleDownload}>
+      <div className="flex justify-end gap-3">
+        <Button onClick={handleDownload} size={"icon"} variant={"ghost"}>
           <LucideDownload />
         </Button>
-        <Button size={"icon"} variant={"ghost"} onClick={handleCopy}>
+        <Button onClick={handleCopy} size={"icon"} variant={"ghost"}>
           <LucideCopy />
         </Button>
-        <Button size={"icon"} variant={"ghost"} onClick={handlePreview}>
+        <Button onClick={handlePreview} size={"icon"} variant={"ghost"}>
           <LucideEye />
         </Button>
       </div>

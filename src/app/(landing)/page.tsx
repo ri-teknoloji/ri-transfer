@@ -11,22 +11,22 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
-  SelectItem,
   SelectGroup,
+  SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React from "react";
-import prettyBytes from "pretty-bytes";
-import { LucideTrash } from "lucide-react";
-import { toast } from "sonner";
-import axios, { type AxiosProgressEvent } from "axios";
 import { Folder } from "@prisma/client";
-import { Progress } from "@/components/ui/progress";
+import axios, { type AxiosProgressEvent } from "axios";
+import { LucideTrash } from "lucide-react";
 import { useRouter } from "next/navigation";
+import prettyBytes from "pretty-bytes";
+import React from "react";
+import { toast } from "sonner";
 
 export default function Page() {
   return <UploadForm />;
@@ -47,6 +47,7 @@ const UploadForm = () => {
 
   const percentage = React.useMemo(() => {
     if (!uploadProgress) return 0;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return Math.round((uploadProgress.loaded / uploadProgress.total!) * 100);
   }, [uploadProgress]);
 
@@ -70,7 +71,7 @@ const UploadForm = () => {
         formData,
         {
           onUploadProgress: (event) => setUploadProgress(event),
-        }
+        },
       );
       toast.success("Dosyalar başarıyla yüklendi.");
       setFiles([]);
@@ -111,17 +112,17 @@ const UploadForm = () => {
               <ul className="grid gap-3">
                 {files.map((file, i) => (
                   <li
+                    className="flex items-center justify-between rounded border p-3"
                     key={i}
-                    className="flex items-center justify-between border p-3 rounded"
                   >
-                    <span className="flex gap-1 items-end">
+                    <span className="flex items-end gap-1">
                       <strong>{file.name}</strong>
                       <small>({prettyBytes(file.size)})</small>
                     </span>
                     <Button
+                      onClick={handleDelete.bind(null, i)}
                       size="icon"
                       variant="destructive"
-                      onClick={handleDelete.bind(null, i)}
                     >
                       <LucideTrash />
                     </Button>
@@ -133,21 +134,21 @@ const UploadForm = () => {
           <CardContent>
             <div>
               <Label>Dosya Ekle</Label>
-              <Input type="file" multiple onChange={handleChange} />
+              <Input multiple onChange={handleChange} type="file" />
             </div>
           </CardContent>
           <CardFooter>
             <Button
-              onClick={handleSubmit}
               className="w-full"
               disabled={files.length === 0}
+              onClick={handleSubmit}
             >
               Paylaş
             </Button>
           </CardFooter>
         </Card>
       </div>
-      <div className="col-span-12 md:col-span-4 hidden">
+      <div className="col-span-12 hidden md:col-span-4">
         <Card>
           <CardHeader>
             <CardTitle>Ayarlar</CardTitle>
@@ -173,9 +174,9 @@ const UploadForm = () => {
                 </Select>
               </div>
               <Button
-                type="submit"
                 className="w-full"
                 disabled={files.length === 0}
+                type="submit"
               >
                 Paylaş
               </Button>

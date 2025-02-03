@@ -2,18 +2,18 @@
 
 import { Button } from "@/components/ui/button";
 import http from "@/lib/http";
-import { Folder, File } from "@prisma/client";
+import { File, Folder } from "@prisma/client";
 import { LucideFolderArchive } from "lucide-react";
 import { toast } from "sonner";
 
 interface DownloadOptionsProps {
-  folder: Folder & { files: File[] };
+  folder: { files: File[] } & Folder;
 }
 
 export default function DownloadButtons({ folder }: DownloadOptionsProps) {
   const handleDownload = async () => {
     const { data } = await http.post<{ path: string }>(
-      `/api/folders/${folder.id}/zip`
+      `/api/folders/${folder.id}/zip`,
     );
 
     const a = document.createElement("a");
@@ -26,7 +26,7 @@ export default function DownloadButtons({ folder }: DownloadOptionsProps) {
   };
 
   return (
-    <div className="flex gap-3 justify-end">
+    <div className="flex justify-end gap-3">
       <Button onClick={handleDownload}>
         <LucideFolderArchive />
         Zip olarak indir

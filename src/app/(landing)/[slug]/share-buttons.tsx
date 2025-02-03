@@ -7,7 +7,7 @@ import React from "react";
 import { toast } from "sonner";
 
 interface ShareButtonsProps {
-  folder: Folder & { files: File[] };
+  folder: { files: File[] } & Folder;
 }
 
 export default function ShareButtons({ folder }: ShareButtonsProps) {
@@ -23,7 +23,7 @@ export default function ShareButtons({ folder }: ShareButtonsProps) {
       " mailto:" +
         `?body=Paylaşılan dosyalara erişmek için linke tıklayınız <a href="${url}">${url}</a>` +
         "&subject=Paylaşılan Dosyalar",
-      "_blank"
+      "_blank",
     );
 
     toast.info("Mail sayfası açıldı");
@@ -38,7 +38,7 @@ export default function ShareButtons({ folder }: ShareButtonsProps) {
 
   return (
     <>
-      <div className="flex gap-1 flex-wrap">
+      <div className="flex flex-wrap gap-1">
         <Button onClick={handleQrCode} variant={"outline"}>
           <LucideQrCode />
           QR Kod

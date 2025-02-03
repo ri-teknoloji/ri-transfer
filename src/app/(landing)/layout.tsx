@@ -6,20 +6,33 @@ import React from "react";
 
 export default function Layout({ children }: React.PropsWithChildren) {
   return (
-    <div className="flex flex-col min-h-screen gap-10">
+    <div className="flex min-h-screen flex-col gap-10">
       <Navbar />
-      <main className="flex-1 container max-w-5xl">{children}</main>
+      <main className="container max-w-5xl flex-1">{children}</main>
       <Footer />
     </div>
   );
 }
 
+function Footer() {
+  return (
+    <footer className="border-t py-6 shadow-md">
+      <div className="container grid grid-cols-1 gap-3 md:grid-cols-2">
+        <Image alt="Logo" height={40} src="/logo.png" width={120} />
+        <div className="flex items-center justify-end">
+          <p>{new Date().getFullYear()} &copy; RiTransfer</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 function Navbar() {
   return (
-    <nav className="shadow-md py-4">
-      <div className="container grid grid-cols-1 md:grid-cols-2 gap-3">
+    <nav className="py-4 shadow-md">
+      <div className="container grid grid-cols-1 gap-3 md:grid-cols-2">
         <Link className="flex items-center gap-1" href="/">
-          <Image src="/icon.png" width={40} height={40} alt="Logo" />
+          <Image alt="Logo" height={40} src="/icon.png" width={40} />
           <span className="text-lg font-bold">RiTransfer</span>
         </Link>
         <div className="flex justify-end gap-3">
@@ -31,26 +44,13 @@ function Navbar() {
           </Link>
           <Link
             href={"https://github.com/ri-teknoloji"}
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             <Button>Github</Button>
           </Link>
         </div>
       </div>
     </nav>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="shadow-md border-t py-6">
-      <div className="container grid grid-cols-1 md:grid-cols-2 gap-3">
-        <Image src="/logo.png" width={120} height={40} alt="Logo" />
-        <div className="flex justify-end items-center">
-          <p>{new Date().getFullYear()} &copy; RiTransfer</p>
-        </div>
-      </div>
-    </footer>
   );
 }

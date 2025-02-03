@@ -8,10 +8,11 @@ import {
 } from "@/components/ui/card";
 import http from "@/lib/http";
 import { File, Folder } from "@prisma/client";
-import React from "react";
-import FileCard from "./file-card";
 import prettyBytes from "pretty-bytes";
+import React from "react";
+
 import DownloadButtons from "./download-buttons";
+import FileCard from "./file-card";
 import ShareButtons from "./share-buttons";
 
 interface PageProps {
@@ -20,8 +21,8 @@ interface PageProps {
 export default async function Page({ params }: PageProps) {
   const { slug } = await params;
 
-  const { data: folder } = await http.get<Folder & { files: File[] }>(
-    `/api/folders/${slug}`
+  const { data: folder } = await http.get<{ files: File[] } & Folder>(
+    `/api/folders/${slug}`,
   );
 
   const totalSize = () => {
@@ -29,7 +30,7 @@ export default async function Page({ params }: PageProps) {
 
     const bytes = Array.from(folder.files).reduce(
       (acc, file) => acc + file.size,
-      0
+      0,
     );
 
     return bytes;
@@ -39,7 +40,7 @@ export default async function Page({ params }: PageProps) {
     <Card>
       <CardHeader>
         <CardTitle>Dosyalar</CardTitle>
-        <CardDescription className="flex gap-3 flex-wrap">
+        <CardDescription className="flex flex-wrap gap-3">
           <span>Toplam boyut: {prettyBytes(totalSize())}</span>
           <span>
             Oluşturulma tarihi: {new Date(folder.createdAt).toLocaleString()}
@@ -49,11 +50,11 @@ export default async function Page({ params }: PageProps) {
       <CardContent>
         <ul className="space-y-3">
           {folder.files.map((file: File) => (
-            <FileCard key={file.id} file={file} />
+            <FileCard file={file} key={file.id} />
           ))}
         </ul>
       </CardContent>
-      <CardFooter className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <CardFooter className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <ShareButtons folder={folder} />
         <DownloadButtons folder={folder} />
       </CardFooter>

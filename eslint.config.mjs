@@ -1,16 +1,42 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+import eslint from "@eslint/js";
+import js from "@eslint/js";
+import perfectionist from "eslint-plugin-perfectionist";
+import tseslint from "typescript-eslint";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// pnpm add --save-dev @eslint/eslintrc @eslint/js eslint-plugin-perfectionist typescript-eslint
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: import.meta.dirname,
+  recommendedConfig: js.configs.recommended,
 });
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-];
-
-export default eslintConfig;
+export default tseslint.config(
+  eslint.configs.recommended,
+  tseslint.configs.strict,
+  tseslint.configs.stylistic,
+  perfectionist.configs["recommended-alphabetical"],
+  ...compat.config({
+    extends: ["next"],
+  }),
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    ignores: ["node_modules", ".next", "out"],
+    rules: {
+      "perfectionist/sort-jsx-props": [
+        "error",
+        {
+          customGroups: {},
+          groups: [],
+          ignoreCase: true,
+          ignorePattern: [],
+          newlinesBetween: "always",
+          order: "asc",
+          partitionByNewLine: false,
+          specialCharacters: "keep",
+          type: "alphabetical",
+        },
+      ],
+    },
+  },
+);

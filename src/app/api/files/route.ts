@@ -1,9 +1,9 @@
-import { writeFile } from "fs/promises";
+import prisma from "@/prisma";
+import { File as DbFile } from "@prisma/client";
 import fs from "fs";
+import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
-import { File as DbFile } from "@prisma/client";
-import prisma from "@/prisma";
 
 export async function GET() {
   const files = await prisma.file.findMany();
@@ -40,10 +40,10 @@ export async function POST(request: NextRequest) {
 
     const uploadedFile = await prisma.file.create({
       data: {
+        folderId: folder.id,
         name: slug,
         size: file.size,
         type: file.type,
-        folderId: folder.id,
       },
     });
 
@@ -51,10 +51,10 @@ export async function POST(request: NextRequest) {
   }
 
   await prisma.folder.update({
-    where: { id: folder.id },
     data: {
       files: { connect: uploadedFiles.map((file) => ({ id: file.id })) },
     },
+    where: { id: folder.id },
   });
 
   return NextResponse.json(folder);

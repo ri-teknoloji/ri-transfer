@@ -1,18 +1,18 @@
 import prisma from "@/prisma";
 import AdmZip from "adm-zip";
-import { NextRequest, NextResponse } from "next/server";
 import { readFile, writeFile } from "fs/promises";
+import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 
 export async function POST(
   _request: NextRequest,
-  { params }: { params: Promise<{ folderId: string }> }
+  { params }: { params: Promise<{ folderId: string }> },
 ) {
   const { folderId } = await params;
 
   const folder = await prisma.folder.findUnique({
-    where: { id: folderId },
     include: { files: true },
+    where: { id: folderId },
   });
 
   if (!folder) {

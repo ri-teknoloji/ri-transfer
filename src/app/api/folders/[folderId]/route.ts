@@ -3,13 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: Promise<{ folderId: string }> }
+  { params }: { params: Promise<{ folderId: string }> },
 ) {
   const { folderId } = await params;
 
   const folder = await prisma.folder.findUnique({
-    where: { id: folderId },
     include: { files: true },
+    where: { id: folderId },
   });
 
   return NextResponse.json(folder);
