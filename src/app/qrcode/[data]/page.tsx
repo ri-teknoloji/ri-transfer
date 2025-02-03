@@ -12,7 +12,11 @@ export default function QrCode({ params }: QrCodeProps) {
 
   return (
     <div className="grid h-screen place-items-center bg-black">
-      <QRCodeCanvas marginSize={1} size={256} value={data} />
+      <QRCodeCanvas
+        marginSize={1}
+        size={256}
+        value={decodeURIComponent(data)}
+      />
     </div>
   );
 }
