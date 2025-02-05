@@ -72,64 +72,67 @@ const UploadForm = () => {
     setFiles((prevFiles) => [...prevFiles.filter((_, i) => i !== index)]);
   };
 
-  return (
-    <div className="grid grid-cols-12 gap-3">
-      {uploadProgress && (
-        <div className="col-span-12">
-          <Label className="flex gap-1">
-            Yükleme Durumu
-            <span>{percentage}%</span>
+  if (uploadProgress) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Yükleniyor</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Label>
+            Yükleniyor... <span>{percentage}%</span>
           </Label>
           <Progress value={percentage} />
-        </div>
-      )}
-      <div className="col-span-12">
-        <Card>
-          <CardHeader>
-            <CardTitle>Dosyalar</CardTitle>
-            <CardDescription>
-              Toplam Boyut: {totalSize === 0 ? "0" : prettyBytes(totalSize)}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {files && (
-              <ul className="grid gap-3">
-                {files.map((file, i) => (
-                  <li
-                    className="flex items-center justify-between rounded border p-3"
-                    key={i}
-                  >
-                    <span className="flex items-end gap-1">
-                      <strong>{file.name}</strong>
-                      <small>({prettyBytes(file.size)})</small>
-                    </span>
-                    <Button
-                      onClick={handleDelete.bind(null, i)}
-                      size="icon"
-                      variant="destructive"
-                    >
-                      <LucideTrash />
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </CardContent>
-          <CardContent>
-            <Dropzone files={files} setFiles={setFiles} />
-          </CardContent>
-          <CardFooter>
-            <Button
-              className="w-full"
-              disabled={files.length === 0}
-              onClick={handleSubmit}
-            >
-              Paylaş
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
-    </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Dosyalar</CardTitle>
+        <CardDescription>
+          Toplam Boyut: {totalSize === 0 ? "0" : prettyBytes(totalSize)}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {files && (
+          <ul className="grid gap-3">
+            {files.map((file, i) => (
+              <li
+                className="flex items-center justify-between rounded border p-3"
+                key={i}
+              >
+                <span className="flex items-end gap-1">
+                  <strong>{file.name}</strong>
+                  <small>({prettyBytes(file.size)})</small>
+                </span>
+                <Button
+                  onClick={handleDelete.bind(null, i)}
+                  size="icon"
+                  variant="destructive"
+                >
+                  <LucideTrash />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </CardContent>
+      <CardContent>
+        <Dropzone files={files} setFiles={setFiles} />
+      </CardContent>
+      <CardFooter>
+        <Button
+          className="w-full"
+          disabled={files.length === 0}
+          onClick={handleSubmit}
+        >
+          Paylaş
+        </Button>
+      </CardFooter>
+    </Card>
   );
 };
 
