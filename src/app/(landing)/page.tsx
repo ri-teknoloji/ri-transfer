@@ -142,7 +142,6 @@ interface DropzoneProps {
 }
 const Dropzone = ({ files, setFiles }: DropzoneProps) => {
   const dropZoneConfig = {
-    maxFiles: 5,
     multiple: true,
   } satisfies DropzoneOptions;
 
