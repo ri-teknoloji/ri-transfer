@@ -5,7 +5,7 @@ const http = axios.create({
 });
 
 export const getFile = (url: string) => {
-  return process.env.NEXT_PUBLIC_CDN_URL + "/" + encodeURIComponent(url);
+  return [process.env.NEXT_PUBLIC_CDN_URL, encodeURIComponent(url)].join("/");
 };
 
 export default http;

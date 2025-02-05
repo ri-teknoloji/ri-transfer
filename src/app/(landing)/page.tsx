@@ -9,15 +9,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { FileInput, FileUploader } from "@/components/ui/extension/file-upload";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Folder } from "@prisma/client";
 import axios, { type AxiosProgressEvent } from "axios";
-import { LucideTrash } from "lucide-react";
+import { LucideFile, LucideTrash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import prettyBytes from "pretty-bytes";
 import React from "react";
+import { DropzoneOptions } from "react-dropzone";
 import { toast } from "sonner";
 
 export default function Page() {
@@ -42,15 +43,6 @@ const UploadForm = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return Math.round((uploadProgress.loaded / uploadProgress.total!) * 100);
   }, [uploadProgress]);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { files: newFiles } = event.target;
-    if (!newFiles) return;
-
-    setFiles((prevFiles) => [...prevFiles, ...Array.from(newFiles)]);
-
-    event.target.value = "";
-  };
 
   const handleSubmit = async () => {
     const formData = new FormData();
@@ -124,10 +116,7 @@ const UploadForm = () => {
             )}
           </CardContent>
           <CardContent>
-            <div>
-              <Label>Dosya Ekle</Label>
-              <Input multiple onChange={handleChange} type="file" />
-            </div>
+            <Dropzone files={files} setFiles={setFiles} />
           </CardContent>
           <CardFooter>
             <Button
@@ -140,6 +129,35 @@ const UploadForm = () => {
           </CardFooter>
         </Card>
       </div>
+    </div>
+  );
+};
+
+interface DropzoneProps {
+  files: File[];
+  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+}
+const Dropzone = ({ files, setFiles }: DropzoneProps) => {
+  const dropZoneConfig = {
+    maxFiles: 5,
+    multiple: true,
+  } satisfies DropzoneOptions;
+
+  return (
+    <div>
+      <FileUploader
+        className="relative rounded-lg p-1"
+        dropzoneOptions={dropZoneConfig}
+        onValueChange={(value) => setFiles(value || [])}
+        value={files}
+      >
+        <FileInput className="p-5 outline-dashed outline-1 outline-foreground">
+          <div className="flex flex-col items-center gap-5">
+            <LucideFile />
+            <p>Dosyalarınızı sürükleyip bırakarak yükleyebilirsiniz.</p>
+          </div>
+        </FileInput>
+      </FileUploader>
     </div>
   );
 };
