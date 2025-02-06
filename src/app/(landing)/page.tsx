@@ -93,7 +93,9 @@ const UploadForm = () => {
       <CardHeader>
         <CardTitle>Dosyalar</CardTitle>
         <CardDescription>
-          Toplam Boyut: {totalSize === 0 ? "0" : prettyBytes(totalSize)}
+          Toplam Boyut:{" "}
+          <span>{totalSize === 0 ? "0" : prettyBytes(totalSize)}</span>
+          Eklenen Dosyalar: <span>({files.length}/10)</span>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -142,6 +144,7 @@ interface DropzoneProps {
 }
 const Dropzone = ({ files, setFiles }: DropzoneProps) => {
   const dropZoneConfig = {
+    maxFiles: 10,
     multiple: true,
   } satisfies DropzoneOptions;
 
